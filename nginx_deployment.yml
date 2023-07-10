@@ -26,3 +26,15 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 80
+          volumeMounts:
+            - mountPath: "/var/www/html"
+              name: html-volume
+            - mountPath: "/etc/nginx"
+              name: config-volume
+      volumes:
+        - name: html-volume
+          persistentVolumeClaim:
+            claimName: pvc-nginx-html
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: pvc-nginx-config

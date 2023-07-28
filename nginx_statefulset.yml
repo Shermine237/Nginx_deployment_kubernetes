@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-statefulset
+  labels:
+    app: app-nginx
+spec:
+  replicas: 3
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: app-nginx
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: app-nginx
+    spec:
+      containers:
+        - name: nginx-container
+          image: library/nginx:1.25.1-alpine
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: "/var/www/html"
+              name: pvc-nginx-html
+            - mountPath: "/etc/nginx"
+              name: pvc-nginx-config
+  volumeClaimTemplates:
+    - metadata:
+        name: pvc-nginx-html
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Mi
+        storageClassName: nginx-class-html
+    - metadata:
+        name: pvc-nginx-config
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Mi
+        storageClassName: nginx-class-config

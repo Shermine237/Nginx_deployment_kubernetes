@@ -10,7 +10,7 @@ spec:
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: nginx-class-html
   local:
     path: /k8s-volumes/nginx/html

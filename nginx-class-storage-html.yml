@@ -2,6 +2,6 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: nginx-class-html
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
